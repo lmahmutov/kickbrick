@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kickbrick/trenirovki/trenirovka.dart';
+import 'package:kickbrick/routes.dart';
 
 class Onboarding extends StatelessWidget {
   @override
@@ -47,8 +47,7 @@ class Onboarding extends StatelessWidget {
                         ],
                       )),
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Trenirovka()));
+                    Navigator.of(context).pushNamed(AppRoutes.trenirovkapage);
                   },
                 ),
               ],

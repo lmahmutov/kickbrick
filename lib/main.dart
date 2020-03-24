@@ -5,6 +5,7 @@ import 'package:kickbrick/onboarding.dart';
 import 'package:kickbrick/routes.dart';
 import 'package:kickbrick/settings/install_manual.dart';
 import 'package:kickbrick/settings/settings.dart';
+import 'package:kickbrick/trenirovki/trenirovka.dart';
 import 'bluetooth_controller.dart';
 
 BluetoothController controller = new BluetoothController();
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.seCondScreen: (context) => Onboarding(),
         AppRoutes.installPage: (context) => InstallDeviceManual(),
         AppRoutes.settinsPage: (context) => SettingsPage(),
+        AppRoutes.trenirovkapage: (context) => Trenirovka(),
       },
       color: Colors.lightBlue,
       home: StreamBuilder<BluetoothState>(

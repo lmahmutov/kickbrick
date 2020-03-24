@@ -3,4 +3,5 @@ class AppRoutes {
   static const seCondScreen = "seCondScreen";
   static const installPage = "installPage";
   static const settinsPage = "settingsPage";
+  static const trenirovkapage = "trenirovkapage";
 }
