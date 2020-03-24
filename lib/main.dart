@@ -3,6 +3,8 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:kickbrick/bletest.dart';
 import 'package:kickbrick/onboarding.dart';
 import 'package:kickbrick/routes.dart';
+import 'package:kickbrick/settings/install_manual.dart';
+import 'package:kickbrick/settings/settings.dart';
 import 'bluetooth_controller.dart';
 
 BluetoothController controller = new BluetoothController();
@@ -15,7 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         AppRoutes.testScreen: (context) => BleTestPage(controller),
-        AppRoutes.seCondScreen: (context) => SecondRoute()
+        AppRoutes.seCondScreen: (context) => Onboarding(),
+        AppRoutes.installPage: (context) => InstallDeviceManual(),
+        AppRoutes.settinsPage: (context) => SettingsPage(),
       },
       color: Colors.lightBlue,
       home: StreamBuilder<BluetoothState>(

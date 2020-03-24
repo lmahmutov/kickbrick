@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kickbrick/trenirovki/trenirovka.dart';
 
-class Onboarding extends StatelessWidget {
+class InstallDeviceManual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,12 +16,12 @@ class Onboarding extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                     child: Image.asset(
-                  "assets/images/meshok.png",
+                  "assets/images/position.png",
                 )),
                 Padding(
                   padding: EdgeInsets.only(bottom: 20),
                   child: Text(
-                    'Включите Kickbrick\nи повесьте на мешок',
+                    'Включите Kickbrick\nи повесьте на \nна уровне 2/3 мешка',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 23.0,
@@ -40,15 +39,14 @@ class Onboarding extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Далее",
+                            "Вернуться обратно",
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 28, color: Colors.white),
                           ),
                         ],
                       )),
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Trenirovka()));
+                    Navigator.of(context).pop();
                   },
                 ),
               ],

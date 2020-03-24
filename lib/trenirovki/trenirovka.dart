@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kickbrick/routes.dart';
-import 'reaction_speed.dart';
-import 'knopka.dart';
+import 'package:kickbrick/trenirovki/knopka.dart';
 
 class Trenirovka extends StatelessWidget {
   @override
@@ -44,20 +43,14 @@ class Trenirovka extends StatelessWidget {
                         child: Knopka(
                           assetName: "assets/images/clock.png",
                           textBox: "Скорость\nреакции",
-                          onClick: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ReactionSpeedPage()));
-                          },
+                          onClick: () {},
                         ),
                       ),
                       Expanded(
                         child: Knopka(
                           assetName: "assets/images/grusha_mini.png",
                           textBox: "Тренировка\nс мешком",
-                          onClick: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ReactionSpeedPage()));
-                          },
+                          onClick: () {},
                         ),
                       ),
                     ],
@@ -70,20 +63,14 @@ class Trenirovka extends StatelessWidget {
                         child: Knopka(
                           assetName: "assets/images/kulak.png",
                           textBox: "Количество\nударов",
-                          onClick: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ReactionSpeedPage()));
-                          },
+                          onClick: () {},
                         ),
                       ),
                       Expanded(
                         child: Knopka(
                           assetName: "assets/images/chelovek.png",
                           textBox: "Комбинации\nударов",
-                          onClick: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ReactionSpeedPage()));
-                          },
+                          onClick: () {},
                         ),
                       ),
                     ],
@@ -113,7 +100,7 @@ class Trenirovka extends StatelessWidget {
                         ],
                       )),
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.testScreen);
+                    Navigator.of(context).pushNamed(AppRoutes.settinsPage);
                   },
                 ),
               ],
