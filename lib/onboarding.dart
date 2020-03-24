@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'bletest.dart';
+import 'trenirovka.dart';
 
 class SecondRoute extends StatelessWidget {
   @override
@@ -18,56 +18,37 @@ class SecondRoute extends StatelessWidget {
                 Expanded(
                     child: Image.asset(
                   "assets/images/meshok.png",
-                  //height: 200,
-                  //fit: BoxFit.fitHeight,
                 )),
-                new Container(
-                  height: 133.49,
-                  width: 47.86,
-                  decoration: BoxDecoration(
-                    color: Color(0xffffffff),
-                    border: Border.all(
-                      width: 2.00,
-                      color: Color(0xff1d1d1b),
-                    ),
-                    borderRadius: BorderRadius.circular(8.51),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'Включите Kickbrick\nи повесьте на мешок',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
-                ),
-                Text(
-                  'Включите Kickbrick\nи повесьте на мешок',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
                 ),
                 InkWell(
                   child: Container(
-                      height: 50,
+                      height: 62,
                       color: Colors.grey,
                       alignment: Alignment(0, 0),
                       //margin: const EdgeInsets.all(1),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                          ),
                           Text(
-                            "Настройки",
+                            "Далее",
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 30, color: Colors.white),
+                            style: TextStyle(fontSize: 28, color: Colors.white),
                           ),
                         ],
                       )),
                   onTap: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => BleTestPage()));
+                        MaterialPageRoute(builder: (context) => Trenirovka()));
                   },
                 ),
               ],

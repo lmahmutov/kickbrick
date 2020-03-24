@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'bluetooth_controller.dart';
 
-BluetoothController controller = new BluetoothController();
-
 class BleTestPage extends StatefulWidget {
+  final BluetoothController controller;
+
+  const BleTestPage(
+    this.controller, {
+    Key key,
+  }) : super(key: key);
   @override
   _BleTestPageState createState() => _BleTestPageState();
 }
@@ -26,8 +30,8 @@ class _BleTestPageState extends State<BleTestPage> {
     super.initState();
     print('Init state');
     litems.add("STARTING");
-    controller.connect();
-    subscriptionMessage = controller.receiveData.listen((printstring) {
+    widget.controller.connect();
+    subscriptionMessage = widget.controller.receiveData.listen((printstring) {
       litems.add(printstring); // Append Text to the list
       setState(() {}); // Redraw the Stateful Widget});
     });
@@ -35,7 +39,7 @@ class _BleTestPageState extends State<BleTestPage> {
 
   @override
   void dispose() {
-    controller.dispose();
+    widget.controller.dispose();
     subscriptionMessage?.cancel();
     super.dispose();
   }
@@ -66,28 +70,28 @@ class _BleTestPageState extends State<BleTestPage> {
                     })),
             RaisedButton(
               onPressed: () {
-                controller.getImudata();
+                widget.controller.getImudata();
               },
               child: const Text('Получение текущих моментальных ускорений',
                   style: TextStyle(fontSize: 20)),
             ),
             RaisedButton(
               onPressed: () {
-                controller.startUdar();
+                widget.controller.startUdar();
               },
               child: const Text('Выполнение удара',
                   style: TextStyle(fontSize: 20)),
             ),
             RaisedButton(
               onPressed: () {
-                controller.showPixels();
+                widget.controller.showPixels();
               },
               child: const Text('Показать зажженные точки',
                   style: TextStyle(fontSize: 20)),
             ),
             RaisedButton(
               onPressed: () {
-                controller.showNumber(_currentValue);
+                widget.controller.showNumber(_currentValue);
               },
               child:
                   const Text('Показать цифру', style: TextStyle(fontSize: 20)),

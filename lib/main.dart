@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'onboarding.dart';
+import 'package:kickbrick/bletest.dart';
+import 'package:kickbrick/onboarding.dart';
+import 'package:kickbrick/routes.dart';
+import 'bluetooth_controller.dart';
+
+BluetoothController controller = new BluetoothController();
 
 void main() => runApp(MyApp());
 
@@ -8,6 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        AppRoutes.testScreen: (context) => BleTestPage(controller),
+        AppRoutes.seCondScreen: (context) => SecondRoute()
+      },
       color: Colors.lightBlue,
       home: StreamBuilder<BluetoothState>(
           stream: FlutterBlue.instance.state,
@@ -15,7 +24,10 @@ class MyApp extends StatelessWidget {
           builder: (c, snapshot) {
             final state = snapshot.data;
             if (state == BluetoothState.on) {
-              return MyHomePage(title: 'kickbrick');
+              return MyHomePage(
+                title: 'kickbrick',
+                bluetoothController: controller,
+              );
             }
             return BluetoothOffScreen(state: state);
           }),
@@ -68,8 +80,9 @@ class _BluetoothOffScreenState extends State<BluetoothOffScreen> {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.bluetoothController}) : super(key: key);
   final String title;
+  final BluetoothController bluetoothController;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -95,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Color(0xFF000000),
           image: DecorationImage(
             image: AssetImage("assets/images/background.png"),
-            fit: BoxFit.cover,
           ),
         ),
         child: Center(
@@ -107,7 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> showOnBoarding(Duration timeStamp) async {
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => SecondRoute()));
+    Navigator.of(context).pushNamed(AppRoutes.seCondScreen);
   }
 }
