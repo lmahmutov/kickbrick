@@ -1,38 +1,74 @@
 import 'dart:async';
 import 'package:convert/convert.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class BluetoothController {
   StreamController<String> _receivedData = StreamController();
   Stream<String> get receiveData => _receivedData.stream;
+  StreamController<DeviceState> _deviceState = StreamController();
+  Stream<DeviceState> get deviceState => _deviceState.stream;
+
   var device;
   bool _connected = false;
   bool _scanstarted = false;
+
   BluetoothCharacteristic _commandCharacteristic;
+  BluetoothCharacteristic _notifyCharacteristic;
+  StreamSubscription scaning;
+  StreamSubscription getConnectionState;
+  StreamSubscription getNotification;
 
   Future connect() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _savedMac = (prefs.getString('deviceMac') ?? "");
+    print("Saved MAC: $_savedMac");
     if (!_connected && !_scanstarted) {
       _scanstarted = true;
-      await FlutterBlue.instance.startScan(timeout: Duration(seconds: 2));
-      FlutterBlue.instance.scanResults.listen((scanResults) async {
+      await FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
+      scaning = FlutterBlue.instance.scanResults.listen((scanResults) async {
         for (ScanResult scanResult in scanResults) {
           String name = scanResult.device.name;
-          print("name $name");
-          _receivedData.add("Found device $name");
-          if (name.startsWith("KickBrick")) {
+          String mac = scanResult.device.id.toString();
+          print("mac: $mac, device name $name");
+          //if (name.startsWith("KickBrick")) {
+          if (mac == _savedMac) {
+            _receivedData.add("Found device $name\n");
             device = scanResult.device;
             FlutterBlue.instance.stopScan();
             await device.connect();
-            print("KICKBRICK Connected");
-            _receivedData.add("KICKBRICK Connected");
+            getConnectionState = device.state.listen((state) {
+              print('connection state: $state');
+              if (state == BluetoothDeviceState.disconnected) {
+                _deviceState.add(DeviceState.isDisconnected);
+              }
+            });
+            print("KickBrick Connected");
+            _receivedData.add("KickBrick Connected\n");
             _connected = true;
+            _deviceState.add(DeviceState.isConnected);
             getservices();
           }
+        }
+        if (!_connected) {
+          _deviceState.add(DeviceState.isNotFound);
         }
         _scanstarted = false;
       });
     }
+  }
+
+  Future disconnect() async {
+    scaning?.cancel();
+    getConnectionState?.cancel();
+
+    if (_connected) {
+      getNotification?.cancel();
+      await _notifyCharacteristic?.setNotifyValue(false);
+      await device?.disconnect();
+    }
+    _connected = false;
+    _deviceState.add(DeviceState.isDisconnected);
   }
 
   Future getservices() async {
@@ -45,12 +81,13 @@ class BluetoothController {
           if (c.uuid.toString().startsWith("0000fff1")) {
             print("Command Characteristic found");
             _commandCharacteristic = c;
-            _receivedData.add("Command Characteristic found");
+            //_receivedData.add("Command Characteristic found\n");
           } else if (c.uuid.toString().startsWith("0000fff2")) {
             print("Answer Characteristic found");
-            _receivedData.add("Answer Characteristic found");
-            await c.setNotifyValue(true);
-            c.value.listen((value) {
+            _notifyCharacteristic = c;
+            //_receivedData.add("Answer Characteristic found\n");
+            await _notifyCharacteristic.setNotifyValue(true);
+            getNotification = _notifyCharacteristic.value.listen((value) {
               var resultnotif = hex.encode(value);
               _receivedData.add(resultnotif);
             });
@@ -169,6 +206,8 @@ class BluetoothController {
     _receivedData.close();
     _connected = false;
     FlutterBlue.instance.stopScan();
-    device?.disconnect();
+    disconnect();
   }
 }
+
+enum DeviceState { isConnected, isDisconnected, isNotFound }

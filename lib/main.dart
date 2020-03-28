@@ -3,6 +3,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:kickbrick/bletest.dart';
 import 'package:kickbrick/onboarding.dart';
 import 'package:kickbrick/routes.dart';
+import 'package:kickbrick/settings/adddevice.dart';
 import 'package:kickbrick/settings/install_manual.dart';
 import 'package:kickbrick/settings/settings.dart';
 import 'package:kickbrick/trenirovki/trenirovka.dart';
@@ -18,10 +19,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         AppRoutes.testScreen: (context) => BleTestPage(controller),
-        AppRoutes.seCondScreen: (context) => Onboarding(),
+        AppRoutes.seCondScreen: (context) => Onboarding(controller),
         AppRoutes.installPage: (context) => InstallDeviceManual(),
         AppRoutes.settinsPage: (context) => SettingsPage(),
         AppRoutes.trenirovkapage: (context) => Trenirovka(),
+        AppRoutes.addDevicePage: (context) => AddDevice(),
       },
       color: Colors.lightBlue,
       home: StreamBuilder<BluetoothState>(

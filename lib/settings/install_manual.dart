@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class InstallDeviceManual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Center(
         child: Container(
           decoration: BoxDecoration(
@@ -54,6 +55,6 @@ class InstallDeviceManual extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }
