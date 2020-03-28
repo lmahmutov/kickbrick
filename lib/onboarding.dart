@@ -98,22 +98,22 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      RaisedButton(
-                        padding: const EdgeInsets.all(4.0),
-                        onPressed: isDeviceAdded
-                            ? () {
+                      isDeviceAdded && _deviceState == DeviceState.isNotFound
+                          ? RaisedButton(
+                              padding: const EdgeInsets.all(4.0),
+                              onPressed: () {
                                 setState(() {
                                   messageFromBLE = "Reconnecting...\n";
                                 });
                                 print("RECONNECT BUTTON PRESSED");
                                 _connectToDevice();
-                              }
-                            : null,
-                        child: Text('Повторить поиск?',
-                            style: TextStyle(fontSize: 20)),
-                      ),
+                              },
+                              child: Text('Повторить поиск?',
+                                  style: TextStyle(fontSize: 20)),
+                            )
+                          : Container(),
                       RaisedButton(
                         padding: const EdgeInsets.all(4.0),
                         onPressed: () async {

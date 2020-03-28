@@ -19,7 +19,7 @@ class AddDevice extends StatefulWidget {
 
 class AddDeviceState extends State<AddDevice> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  String result = "Для добавления устройства отсканируйте QR код на устройстве";
+  String result = "Для добавления отсканируйте QR код на устройстве";
   bool added = false;
 
   Future<void> _saveDevice(String mac) async {
@@ -64,14 +64,25 @@ class AddDeviceState extends State<AddDevice> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onBackPressed,
+    return SafeArea(
       child: Scaffold(
         body: Center(
-          child: Text(
-            result,
-            textAlign: TextAlign.center,
-            style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.purple, Colors.orange])),
+            child: Center(
+              child: Text(
+                result,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
           ),
         ),
         floatingActionButton: !added
@@ -81,7 +92,7 @@ class AddDeviceState extends State<AddDevice> {
                 onPressed: _scanQR,
               )
             : FloatingActionButton.extended(
-                icon: Icon(Icons.add),
+                icon: Icon(Icons.save),
                 label: Text("Save"),
                 onPressed: () {
                   Navigator.pop(context, 'Yep!');
@@ -91,8 +102,4 @@ class AddDeviceState extends State<AddDevice> {
       ),
     );
   }
-}
-
-Future<bool> _onBackPressed() {
-  return null;
 }
