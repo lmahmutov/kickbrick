@@ -27,6 +27,8 @@ dependencies:
   numberpicker: ^1.2.0
   shared_preferences: ^0.5.6+3
   majascan: ^0.3.6
+  rxdart: ^0.22.0
+
 
 
 

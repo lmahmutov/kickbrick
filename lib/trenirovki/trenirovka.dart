@@ -43,7 +43,10 @@ class Trenirovka extends StatelessWidget {
                         child: Knopka(
                           assetName: "assets/images/clock.png",
                           textBox: "Скорость\nреакции",
-                          onClick: () {},
+                          onClick: () {
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.reactionSpeedPage);
+                          },
                         ),
                       ),
                       Expanded(

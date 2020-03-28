@@ -6,6 +6,8 @@ import 'package:kickbrick/routes.dart';
 import 'package:kickbrick/settings/adddevice.dart';
 import 'package:kickbrick/settings/install_manual.dart';
 import 'package:kickbrick/settings/settings.dart';
+import 'package:kickbrick/trenirovki/reaction_speed/reaction.dart';
+import 'package:kickbrick/trenirovki/reaction_speed/start_reaction.dart';
 import 'package:kickbrick/trenirovki/trenirovka.dart';
 import 'bluetooth_controller.dart';
 
@@ -20,10 +22,13 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.testScreen: (context) => BleTestPage(controller),
         AppRoutes.seCondScreen: (context) => Onboarding(controller),
-        AppRoutes.installPage: (context) => InstallDeviceManual(),
-        AppRoutes.settinsPage: (context) => SettingsPage(),
-        AppRoutes.trenirovkapage: (context) => Trenirovka(),
         AppRoutes.addDevicePage: (context) => AddDevice(),
+        AppRoutes.trenirovkapage: (context) => Trenirovka(),
+        AppRoutes.reactionSpeedPage: (context) => ReactionSpeed(controller),
+        AppRoutes.startCheckReaction: (context) =>
+            StartCheckReaction(controller),
+        AppRoutes.settinsPage: (context) => SettingsPage(),
+        AppRoutes.installPage: (context) => InstallDeviceManual(),
       },
       color: Colors.lightBlue,
       home: StreamBuilder<BluetoothState>(

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kickbrick/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'bluetooth_controller.dart';
+import 'package:kickbrick/bluetooth_controller.dart';
 
 class Onboarding extends StatefulWidget {
   final BluetoothController controller;

@@ -1,17 +1,20 @@
 import 'dart:async';
-import 'package:convert/convert.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class BluetoothController {
-  StreamController<String> _receivedData = StreamController();
+  BehaviorSubject<String> _receivedData = BehaviorSubject();
   Stream<String> get receiveData => _receivedData.stream;
-  StreamController<DeviceState> _deviceState = StreamController();
+  BehaviorSubject<DeviceState> _deviceState = BehaviorSubject();
   Stream<DeviceState> get deviceState => _deviceState.stream;
+  BehaviorSubject<List<int>> _notificationData = BehaviorSubject();
+  Stream<List<int>> get notificationData => _notificationData.stream;
 
   var device;
   bool _connected = false;
   bool _scanstarted = false;
+  bool _sendComplete = true;
 
   BluetoothCharacteristic _commandCharacteristic;
   BluetoothCharacteristic _notifyCharacteristic;
@@ -88,8 +91,10 @@ class BluetoothController {
             //_receivedData.add("Answer Characteristic found\n");
             await _notifyCharacteristic.setNotifyValue(true);
             getNotification = _notifyCharacteristic.value.listen((value) {
-              var resultnotif = hex.encode(value);
-              _receivedData.add(resultnotif);
+              if (value.isNotEmpty) {
+                print('Notification recieved $value');
+                _notificationData.add(value);
+              }
             });
           }
         }
@@ -124,7 +129,8 @@ class BluetoothController {
   }
 
   Future<void> startUdar() async {
-    if (_connected) {
+    if (_connected & _sendComplete) {
+      _sendComplete = false;
       _receivedData.add("Выполнение удара");
       await _commandCharacteristic.write([
         0x02,
@@ -145,7 +151,7 @@ class BluetoothController {
         0x06,
         0x07,
         0x08,
-      ]);
+      ]).then((onValue) => _sendComplete = true);
     }
   }
 
