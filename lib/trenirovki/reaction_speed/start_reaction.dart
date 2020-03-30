@@ -1,15 +1,20 @@
 import 'dart:async';
-
+import 'dart:math';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:kickbrick/settings/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kickbrick/bluetooth_controller.dart';
 
 class StartCheckReaction extends StatefulWidget {
   final BluetoothController controller;
+  final AssetsAudioPlayer _assetsAudioPlayer;
 
-  const StartCheckReaction(this.controller, {Key key, this.state})
-      : super(key: key);
+  const StartCheckReaction(
+    this.controller,
+    this._assetsAudioPlayer, {
+    Key key,
+    this.state,
+  }) : super(key: key);
 
   final StartCheckReaction state;
 
@@ -21,18 +26,52 @@ class StartCheckReaction extends StatefulWidget {
 
 class _StartCheckReactionState extends State<StartCheckReaction> {
   StreamSubscription dataRecieved;
-  Timer timer;
+  Timer timer, timer3, timerWork;
   int workTime;
   int restTime;
   int count = 0;
+  int time321 = 3;
+  bool workStarted = false;
+  var _random = new Random();
+  int next(int min, int max) => min + _random.nextInt(max - min);
 
-  void startTimer() {
-    // Start the periodic timer which prints something every 1 seconds
+  void timerShow321() {
+    timer3 = Timer.periodic(new Duration(seconds: 1), (time) async {
+      if (time321 > 0) {
+        await widget.controller.showNumber(time321);
+        time321--;
+      } else {
+        print("WORK STarted");
+        timer3.cancel();
+        startWorkTimer();
+        workStarted = true;
+        await widget.controller.startUdar();
+        widget._assetsAudioPlayer.open(
+          "assets/audios/box.mp3",
+        );
+        widget._assetsAudioPlayer.play();
+      }
+    });
+  }
+
+  void workTimer() {
+    int _interval = next(700, 1500);
+    timerWork = Timer(Duration(milliseconds: _interval), () {
+      print("интервал между ударами $_interval");
+      widget.controller.startUdar();
+    });
+  }
+
+  void startWorkTimer() {
     timer = Timer.periodic(new Duration(seconds: 1), (time) {
-      print('Timeout');
-      setState(() {
+      if (workTime == 0) {
+        widget._assetsAudioPlayer.stop();
+        timer.cancel();
+      } else {
         workTime--;
-      });
+        setState(() {});
+      }
+      print(workTime);
     });
   }
 
@@ -46,18 +85,20 @@ class _StartCheckReactionState extends State<StartCheckReaction> {
       });
     });
     dataRecieved = widget.controller.notificationData.listen((data) {
-      if (data[0] == 2 && data[2] != 0) {
-        print("Udar poluchen");
-        setState(() {
-          count++;
-        });
-        widget.controller.startUdar();
-      } else {
-        print(data);
-        widget.controller.startUdar();
-      }
+      if (workTime > 0 && workStarted) {
+        if (data[0] == 2 && data[2] != 0) {
+          print("Udar poluchen");
+          setState(() {
+            count++;
+          });
+          workTimer();
+        } else {
+          print(data);
+          workTimer();
+        }
+      } else {}
     });
-    startTimer();
+    timerShow321();
   }
 
   @override
@@ -110,31 +151,6 @@ class _StartCheckReactionState extends State<StartCheckReaction> {
                       fontSize: 150.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                InkWell(
-                  child: Container(
-                      height: 62,
-                      color: Color(0xFF8D8D8D),
-                      alignment: Alignment(0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Настройки",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 28, color: Colors.white),
-                          ),
-                        ],
-                      )),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => SettingsPage()));
-                  },
                 ),
               ],
             ),

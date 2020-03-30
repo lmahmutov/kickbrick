@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:kickbrick/bletest.dart';
@@ -11,7 +12,8 @@ import 'package:kickbrick/trenirovki/reaction_speed/start_reaction.dart';
 import 'package:kickbrick/trenirovki/trenirovka.dart';
 import 'bluetooth_controller.dart';
 
-BluetoothController controller = new BluetoothController();
+BluetoothController controller = BluetoothController();
+AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
 
 void main() => runApp(MyApp());
 
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.trenirovkapage: (context) => Trenirovka(),
         AppRoutes.reactionSpeedPage: (context) => ReactionSpeed(controller),
         AppRoutes.startCheckReaction: (context) =>
-            StartCheckReaction(controller),
+            StartCheckReaction(controller, audioPlayer),
         AppRoutes.settinsPage: (context) => SettingsPage(),
         AppRoutes.installPage: (context) => InstallDeviceManual(),
       },

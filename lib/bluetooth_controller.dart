@@ -14,7 +14,6 @@ class BluetoothController {
   var device;
   bool _connected = false;
   bool _scanstarted = false;
-  bool _sendComplete = true;
 
   BluetoothCharacteristic _commandCharacteristic;
   BluetoothCharacteristic _notifyCharacteristic;
@@ -129,8 +128,8 @@ class BluetoothController {
   }
 
   Future<void> startUdar() async {
-    if (_connected & _sendComplete) {
-      _sendComplete = false;
+    if (_connected) {
+      print("Выполнение удара");
       _receivedData.add("Выполнение удара");
       await _commandCharacteristic.write([
         0x02,
@@ -151,7 +150,7 @@ class BluetoothController {
         0x06,
         0x07,
         0x08,
-      ]).then((onValue) => _sendComplete = true);
+      ]);
     }
   }
 

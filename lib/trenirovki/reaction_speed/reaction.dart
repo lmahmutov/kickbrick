@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:kickbrick/routes.dart';
 import 'package:kickbrick/settings/nastroikivesa.dart';
@@ -40,7 +39,7 @@ class _ReactionSpeedState extends State<ReactionSpeed> {
   void startTimer() {
     // Start the periodic timer which prints something every 1 seconds
     timer = Timer.periodic(new Duration(seconds: 4), (time) {
-      print('Timeout');
+      print('Timeout ожидания удара');
       widget.controller.startUdar();
     });
   }
