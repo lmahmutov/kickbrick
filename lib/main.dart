@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:kickbrick/bletest.dart';
 import 'package:kickbrick/onboarding.dart';
+import 'package:kickbrick/resultat/result.dart';
 import 'package:kickbrick/routes.dart';
 import 'package:kickbrick/settings/adddevice.dart';
 import 'package:kickbrick/settings/install_manual.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.reactionSpeedPage: (context) => ReactionSpeed(controller),
         AppRoutes.startCheckReaction: (context) =>
             StartCheckReaction(controller, audioPlayer),
+        AppRoutes.showResultat: (context) => LineChartSample2(),
         AppRoutes.settinsPage: (context) => SettingsPage(),
         AppRoutes.installPage: (context) => InstallDeviceManual(),
       },

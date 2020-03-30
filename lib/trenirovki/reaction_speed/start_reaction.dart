@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:kickbrick/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kickbrick/bluetooth_controller.dart';
 
@@ -152,6 +153,9 @@ class _StartCheckReactionState extends State<StartCheckReaction> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
+                RaisedButton(onPressed: () {
+                  Navigator.of(context).pushNamed(AppRoutes.showResultat);
+                })
               ],
             ),
           ],

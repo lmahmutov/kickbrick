@@ -30,7 +30,7 @@ dependencies:
   majascan: ^0.3.6
   rxdart: ^0.23.1
   assets_audio_player: ^1.2.3
-
+  fl_chart: ^0.8.7
 
 
 dev_dependencies:

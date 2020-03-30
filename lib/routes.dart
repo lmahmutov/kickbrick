@@ -7,4 +7,5 @@ class AppRoutes {
   static const reactionSpeedPage = "reactionSpeedPage";
   static const startCheckReaction = "startCheckReaction";
   static const addDevicePage = "addDevicePage";
+  static const showResultat = "showResultat";
 }
