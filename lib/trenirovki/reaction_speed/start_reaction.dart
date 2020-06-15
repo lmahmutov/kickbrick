@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kickbrick/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kickbrick/bluetooth_controller.dart';
+import 'package:wakelock/wakelock.dart';
 
 class StartCheckReaction extends StatefulWidget {
   final BluetoothController controller;
@@ -79,6 +80,7 @@ class _StartCheckReactionState extends State<StartCheckReaction> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     SharedPreferences.getInstance().then((readyPrefs) {
       setState(() {
         workTime = readyPrefs.getInt('workTime') ?? 60;
